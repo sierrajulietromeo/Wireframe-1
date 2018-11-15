@@ -1,5 +1,8 @@
+import pgzrun
 import random
 import math
+
+
 
 # the size of the screen
 WIDTH = 800
@@ -14,7 +17,7 @@ PARTICLE_COLOR = 255, 230, 128
 # the time in seconds for which a particle is displayed
 MAX_AGE = 3
 
-# an array to hold the details of the explosion particles on the screen
+# a list to hold the details of the explosion particles on the screen
 particles = []
 
 
@@ -36,32 +39,32 @@ def explode(x, y, speed=300):
         vx = speed * radius * math.sin(angle)
         vy = speed * radius * math.cos(angle)
         
-        # add the particle's position, velocity and age to the array
+        # add the particle's position, velocity and age to the list
         particles.append((x, y, vx, vy, age))
 
 
-# This function redraws the screen by plotting each particle in the array
+# This function redraws the screen by plotting each particle in the list
 
 def draw():
 
     # clear the screen
     screen.clear()
     
-    # loop through all the particles in the array
+    # loop through all the particles in the list
     for x, y, *_ in particles:
         
-        # for each particle in the array, plot its position on the screen
+        # for each particle in the list, plot its position on the screen
         screen.surface.set_at((int(x), int(y)), PARTICLE_COLOR)
 
 
-# This function updates the array of particles
+# This function updates the list of particles
 
 def update(dt):
 
-    # to update the particle array, create a new empty array
+    # to update the particle list, create a new empty list
     new_particles = []
     
-    # loop through the existing particle array
+    # loop through the existing particle list
     for (x, y, vx, vy, age) in particles:
     
         # if a particle was created more than a certain time ago, it can be removed
@@ -80,10 +83,10 @@ def update(dt):
         # update the particle's age
         age += dt
         
-        # add the particle's new position, velocity and age to the new array
+        # add the particle's new position, velocity and age to the new list
         new_particles.append((x, y, vx, vy, age))
         
-    # replace the current array with the new one
+    # replace the current list with the new one
     particles[:] = new_particles
 
 
@@ -99,4 +102,8 @@ def explode_random():
     explode(x, y)
 
 # call the random explosion function every 1.5 seconds
+# 
 clock.schedule_interval(explode_random, 1.5)
+
+
+pgzrun.go()
